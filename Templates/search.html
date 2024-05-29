@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+    <div class="container" style="background-color: white;">
+        <div class="small-header">
+            <h2>{{count}} results</h2>
+        </div>
+        <div id="main">
+            {% if count > 0 %}
+                {% for info in data %}
+                <section class="pos-relative">
+                    <form action="/search" method="get">
+                        <a onclick="this.parentNode.submit()">
+                        {% if info['id'] not in favourites %}
+                            <img id="{{info['id']}}" class="cornerimage" src="https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png" onclick="changeImage(id)">
+                        {% else %}
+                            <img id="{{info['id']}}" class="cornerimage" src="https://pngimg.com/uploads/minus/minus_PNG37.png" onclick="changeImage(id)">
+                        {% endif %}
+                        <input hidden="hidden" name="recipeid" value="{{info['id']}}">
+                        </a>
+                    </form>
+                    <a href="{{info['url']}}">
+                        <img class="image" src="{{info['image']}}">
+                        <text>{{info['name']}}</text>
+                    </a>
+                </section>
+                {% endfor %}
+            {% else %}
+                    <hr>
+                    <h1 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">There are no results!</h1>
+                    <hr>
+                    <h1 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">How about trying these?</h1>
+                    {% for info in randoms %}
+                        <section class="pos-relative">
+                            <form action="/search" method="get">
+                                <a onclick="this.parentNode.submit()">
+                                {% if info['id'] not in favourites %}
+                                    <img id="{{info['id']}}" class="cornerimage" src="https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png" onclick="changeImage(id)">
+                                {% else %}
+                                    <img id="{{info['id']}}" class="cornerimage" src="https://pngimg.com/uploads/minus/minus_PNG37.png" onclick="changeImage(id)">
+                                {% endif %}
+                                <input hidden="hidden" name="recipeid" value="{{info['id']}}">
+                                </a>
+                            </form>
+                            <a href="{{info['url']}}">
+                                <img class="image" src="{{info['image']}}">
+                                <text>{{info['name']}}</text>
+                            </a>
+                        </section>
+                    {% endfor %}
+            {% endif %}
+        </div>
+        <script>
+            function changeImage(id) {
+                if (document.getElementById(id).src == "https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png"){
+                    document.getElementById(id).src = "https://pngimg.com/uploads/minus/minus_PNG37.png";
+                } else {
+                    document.getElementById(id).src = "https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png";
+                }
+            }
+        </script>
+    </div>
+{% endblock %}

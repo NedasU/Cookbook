@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}
+    Log in
+{% endblock %}
+
+{% block body %}
+    <form action="/login" method="POST" ALIGN="center">
+        <label>Log In</label>
+        <input type="text" name="username" placeholder="Username" autofocus, autocomplete="off">
+        <input type="password" name="password" placeholder="Password" autocomplete="off">
+        <br>
+        <button type="submit">Log in</button>
+    </form>
+    <div>
+        <p style="color: Red; text-align: center"> {{error}}</p>
+    </div>
+{% endblock %}

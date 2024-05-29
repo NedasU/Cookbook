@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}All Recipes {% endblock %}
+
+{% block body %}
+    <div class="container" style="background-color: white;">
+        <div class="small-header">
+            <h2>All Recipes</h2>
+        </div>
+        <div id="main">
+            {% for info in data %}
+                <section class="pos-relative">
+                    <form action="/allrecipes" method="post">
+                        <a onclick="this.parentNode.submit()">
+                        {% if info['id'] not in favourites %}
+                            <img id="{{info['id']}}" class="cornerimage" src="https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png" onclick="changeImage(id)">
+                        {% else %}
+                            <img id="{{info['id']}}" class="cornerimage" src="https://pngimg.com/uploads/minus/minus_PNG37.png" onclick="changeImage(id)">
+                        {% endif %}
+                        <input hidden="hidden" name="recipeid" value="{{info['id']}}">
+                        </a>
+                    </form>
+                    <a href="{{info['url']}}">
+                        <img class="image" src="{{info['image']}}">
+                        <text>{{info['name']}}</text>
+                    </a>
+                </section>
+            {% endfor %}
+        </div>
+        <script>
+            function changeImage(id) {
+                if (document.getElementById(id).src == "https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png"){
+                    document.getElementById(id).src = "https://pngimg.com/uploads/minus/minus_PNG37.png";
+                } else {
+                    document.getElementById(id).src = "https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png";
+                }
+            }
+        </script>
+    </div>
+{% endblock %}

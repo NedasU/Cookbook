@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- http://getbootstrap.com/docs/5.1/ -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
+    <link href="static/styles.css" rel="stylesheet">
+    <title>Homepage</title>
+</head>
+<body style="background-color: #BC212E;">
+
+        <nav class="bg-light border navbar navbar-expand-md navbar-light sticky-top" style="padding-left: 80px; position:;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/" style="font-size: 40px;"><span>COOKBOOK</span></a>
+                <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbar" style="padding-left: 30px;">
+                    {% if session["user_id"] %}
+                        <ul class="navbar-nav me-auto mt-2">
+                            <li class="nav-item"><a class="nav-link" href="/allrecipes">All Recipes</a></li>
+                            <li class="nav-item">
+                                <form action="/meatrecipes" method="post">
+                                    <select name='meat' class="form-select bg-light nav-link" style="border: 0px solid black; width: 103px" onchange="this.parentNode.submit()">
+                                        <option selected disabled>Recipes</option>
+                                        <option value="Pork">Pork Recipes</option>
+                                        <option value="Beef">Beef Recipes</option>
+                                        <option value="Chicken">Chicken Recipes</option>
+                                        <option value="Fish">Fish Recipes</option>
+                                        <option value="Dessert">Desserts</option>
+                                    </select>
+                                </form>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/savedrecipes">Saved Recipes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/randomrecipe">Feeling Adventurous</a></li>
+                        </ul>
+                        <ul class="navbar-nav ms-auto mt-2">
+                            <li>
+                                <form action="/search" method="POST" style="text-align: center">
+                                    <input type="text" name="search" autocomplete="off" placeholder="Search">
+                                    <button type="submit" style="width:10%; height:auto;">
+                                        <img src="data:image/png;base64,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" style="width:100%; height: auto;">
+                                    </button>
+                                </form>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/changepass">Change Password</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                        </ul>
+                    {% else %}
+                        <ul class="navbar-nav ms-auto mt-2">
+                            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+
+    <div class="container" style="background-color: white;">
+        <div class="small-header">
+            <h2>New Recipes</h2>
+        </div>
+        <div id="main" style="padding-bottom: 30px;">
+            {% for info in data %}
+                <section class="pos-relative">
+                    <form action="/saverecipe" method="post">
+                        <a onclick="this.parentNode.submit()">
+                        {% if info['id'] not in favourites %}
+                            <img id="{{info['id']}}" class="cornerimage" src="https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png" onclick="changeImage(id)">
+                        {% else %}
+                            <img id="{{info['id']}}" class="cornerimage" src="https://pngimg.com/uploads/minus/minus_PNG37.png" onclick="changeImage(id)">
+                        {% endif %}
+                        <input hidden="hidden" name="recipeid" value="{{info['id']}}">
+                        </a>
+                    </form>
+                    <a href="{{info['url']}}">
+                        <img class="image" src="{{info['image']}}">
+                        <text>{{info['name']}}</text>
+                    </a>
+                </section>
+            {% endfor %}
+        </div>
+        <script>
+            function changeImage(id) {
+                if (document.getElementById(id).src == "https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png"){
+                    document.getElementById(id).src = "https://pngimg.com/uploads/minus/minus_PNG37.png";
+                } else {
+                    document.getElementById(id).src = "https://cdn.discordapp.com/attachments/692715186271813678/1146772373576626347/plusImg.png";
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

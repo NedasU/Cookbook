@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}
+    Account
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="small-header" style="font-weight: bold; font-size: 50px;">
+        {% for i in username %}
+                {{ i }}'s Account
+        {% endfor %}
+        </div>
+
+        <div id="main">
+            <hr style="margin-top: 40px">
+            <h2 style="padding-top:60px;">Saved Recipes</h2>
+            {% if data %}
+                {% for info in data %}
+                    <section class="pos-relative">
+                        <form action="/savedrecipes" method="post">
+                            <a onclick="this.parentNode.submit()">
+                                <img id="{{info['id']}}" class="cornerimage" src="https://pngimg.com/uploads/minus/minus_PNG37.png">
+                            <input hidden="hidden" name="recipeid" value="{{info['id']}}">
+                            </a>
+                            <a href="{{info['url']}}">
+                                <img class="image" src="{{info['image']}}">
+                                <text>{{info['name']}}</text>
+                            </a>
+                        </form>
+                    </section>
+                {% endfor %}
+            {% else %}
+                    <hr>
+                    <h1 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">You have no saved recipes yet!</h1>
+                    <hr>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

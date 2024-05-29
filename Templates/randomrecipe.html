@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}
+    Account
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="small-header" style="font-weight: bold; font-size: 50px;">
+            Dont know what to make? Have a go at randomising a recipe!
+            <hr>
+        </div>
+        <div id="main">
+            <div style="padding-top:150px; font-size: 30px;">
+              <section>
+                   <a href="{{info['url']}}">
+                      <img class="image" src="{{info['image']}}">
+                      <text>{{info['name']}}</text>
+                   </a>
+              </section>
+                 <form action="/randomrecipe" method="POST">
+                     <button type="submit" name='curid' value="{{info['id']}}" class="center">Another Recipe?</button>
+                  </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
